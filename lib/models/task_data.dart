@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
@@ -44,10 +45,13 @@ class TaskData extends ChangeNotifier {
     _syncTasks();
   }
 
-  List<Task> get availableTasks =>
-      _tasks.where((element) => !element.isDone).toList()
-        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  UnmodifiableListView<Task> get availableTasks => UnmodifiableListView(
+        _tasks.where((element) => !element.isDone).toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
+      );
 
-  List<Task> get doneTasks => _tasks.where((element) => element.isDone).toList()
-    ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+  UnmodifiableListView<Task> get doneTasks => UnmodifiableListView(
+        _tasks.where((element) => element.isDone).toList()
+          ..sort((a, b) => b.createdAt.compareTo(a.createdAt)),
+      );
 }
